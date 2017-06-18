@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
-import {Button, Container, Grid, Header, Icon, Image, Input, Label, Segment } from 'semantic-ui-react';
+import {Button, Checkbox, Container, Dropdown, Form, Grid, Header, Icon, Input, Radio, Segment } from 'semantic-ui-react';
+import $ from 'jquery';
 
 const HeaderContent = () => (
   <Grid.Row>
@@ -30,38 +30,87 @@ const FooterContent = () => (
   </div>
 )
 
-
-
-const BuyForm = () => (
-  <Grid.Row>
-    <Input label="Email" fluid type='email' name='email' placeholder='joe@schmoe.com' />
-    <Input label="~" fluid placeholder='urbit-planet' />
-    <Button>Claim for $1</Button>
-  </Grid.Row>
+const advancedPlanet = (props) => (
+  <Input label="~" fluid placeholder='urbit-planet' />
 )
 
-const BuySegment = () => (
-  <Grid.Row>
-    <Segment>
-      Claim an Urbit planet from the star <em>~woldev</em> for $1.
-      <BuyForm />
-    </Segment>
-  </Grid.Row>
-)
+class MainContent extends Component {
+  constructor() {
+    super();
+    this.state = {
+      planets: null,
+      email: '',
+      chosenPlanet: ''
+    }
+  }
 
-
-class App extends Component {
   render() {
+    return(
+      <Grid.Row>
+        <Segment>
+          <Grid.Row>
+            <p><strong>Claim an Urbit planet from the star <em>~woldev</em> for $1.</strong></p>
+            <Form fluid>
+            <Form.Field>
+            <Input label="Email" fluid type='email' name='email' placeholder='joe@schmoe.com' />
+            </Form.Field>
+
+                <Form.Field>
+                  Choose your planet
+                </Form.Field>
+                <Form.Field>
+                  <Radio
+                    label='nidpet-narbel'
+                    name='radioGroup'
+                    value='this'
+                    checked={true}
+                    // onChange={this.handleChange}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Radio
+                    label='losdef-doztyc'
+                    name='radioGroup'
+                    value='that'
+                    checked={false}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Radio
+                    label='tapwet-samteb'
+                    name='radioGroup'
+                    value='this'
+                    checked={true}
+                  />
+                </Form.Field>
+
+            <Form.Field>
+              <Button color="green">Claim <b>{'this'}</b> for $1</Button>
+            </Form.Field>
+            <Form.Field>
+              <Button color="yellow" basic>See More Planets</Button>
+            </Form.Field>
+            <Form.Field>
+              <Checkbox toggle label="Advanced" />
+            </Form.Field>
+            </Form>
+          </Grid.Row>
+        </Segment>
+      </Grid.Row>
+    )
+  }
+}
+
+const App = () => {
     return (
       <Container>
         <Grid centered>
         <HeaderContent/>
-        <BuySegment />
+        <MainContent/>
         <FooterContent />
         </Grid>
       </Container>
     );
-  }
 }
 
 export default App;
