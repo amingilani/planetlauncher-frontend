@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
-import {Button, Checkbox, Container, Dropdown, Form, Grid, Header, Icon, Input, Radio, Segment } from 'semantic-ui-react';
-import $ from 'jquery';
+import {Button, Checkbox, Container, Form, Grid, Header, Icon, Input, Radio, Segment } from 'semantic-ui-react';
 
 const HeaderContent = () => (
   <Grid.Row>
@@ -43,37 +42,37 @@ class MainContent extends Component {
       page: 0,
       advanced: false,
       planets: [
-        'motmeg-morryt',
-        'lavdux-hodwyn',
-        'ponnyx-ramsug',
-        'nisnym-tobpur',
-        'tanseg-racpem',
-        'hapmus-sonryg',
-        'bitsep-nilwyn',
-        'lophes-lashex',
-        'ponsem-padmex',
-        'roswer-fittes',
-        'dildyr-nopheb',
-        'nocwyt-divfep',
-        'samlev-nibweb',
-        'tapwet-samteb',
-        'nossed-tagnyl',
-        'sovben-mogrup',
-        'locsel-hobnem',
-        'fodhes-dacwer',
-        'timleg-nissec',
-        'wolzod-rapbyl',
-        'nibdeg-tadret',
-        'fabryd-wolled',
-        'sovfen-donrul',
-        'rabseb-tiltyn',
-        'dasdeb-lissef',
-        'nolsyx-ligned',
-        'hapheb-hidrep',
-        'ripbyt-mirper',
-        'nidpet-narbel',
-        'racsyx-fodrys',
-        'losdef-doztyc',
+        '~motmeg-morryt',
+        '~lavdux-hodwyn',
+        '~ponnyx-ramsug',
+        '~nisnym-tobpur',
+        '~tanseg-racpem',
+        '~hapmus-sonryg',
+        '~bitsep-nilwyn',
+        '~lophes-lashex',
+        '~ponsem-padmex',
+        '~roswer-fittes',
+        '~dildyr-nopheb',
+        '~nocwyt-divfep',
+        '~samlev-nibweb',
+        '~tapwet-samteb',
+        '~nossed-tagnyl',
+        '~sovben-mogrup',
+        '~locsel-hobnem',
+        '~fodhes-dacwer',
+        '~timleg-nissec',
+        '~wolzod-rapbyl',
+        '~nibdeg-tadret',
+        '~fabryd-wolled',
+        '~sovfen-donrul',
+        '~rabseb-tiltyn',
+        '~dasdeb-lissef',
+        '~nolsyx-ligned',
+        '~hapheb-hidrep',
+        '~ripbyt-mirper',
+        '~nidpet-narbel',
+        '~racsyx-fodrys',
+        '~losdef-doztyc',
       ]
     }
   }
@@ -99,16 +98,31 @@ class MainContent extends Component {
     event.preventDefault();
   }
 
+  handlePlanetRadioClick(event) {
+    const chosenPlanet = event.target.innerHTML
+    let newState = Object.assign({}, this.state);
+    newState.chosenPlanet = chosenPlanet;
+    this.setState(newState);
+  }
+
+  handleEmailChange(event) {
+    const email = event.target.value
+    let newState = Object.assign({}, this.state);
+    newState.email = email;
+    this.setState(newState);
+  }
+
   render() {
     const planetRadios = this.paginatePlanets().map((planet) => {
       const chosenPlanet = this.state.chosenPlanet;
       return (
-        <Form.Field>
+        <Form.Field key={planet}>
           <Radio
             label={planet}
             name='radioGroup'
             value={planet}
             checked={planet === chosenPlanet}
+            onClick={this.handlePlanetRadioClick.bind(this)}
           />
         </Form.Field>
       )
@@ -119,9 +133,9 @@ class MainContent extends Component {
         <Segment>
           <Grid.Row>
             <p><strong>Claim an Urbit planet from the star <em>~woldev</em> for $1.</strong></p>
-            <Form fluid>
+            <Form>
             <Form.Field>
-            <Input label="Email" fluid type='email' name='email' placeholder='joe@schmoe.com' />
+            <Input label="Email" onChange={this.handleEmailChange.bind(this)} value={this.state.email} fluid type='email' name='email' placeholder='joe@schmoe.com' />
             </Form.Field>
 
             <Form.Field>
