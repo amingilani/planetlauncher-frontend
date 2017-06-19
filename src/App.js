@@ -47,6 +47,22 @@ const advancedPlanet = (props) => (
   <Input label="~" fluid placeholder='urbit-planet' />
 )
 
+const SimplePlanetSelect = (props) => (
+  <Form.Field>
+    <Form.Field>
+      Choose your planet:
+    </Form.Field>
+      {props.planetRadios}
+    <Form.Field>
+      <Button.Group>
+        <Button onClick={props.lastClickHandler} disabled={props.lastDisabled} labelPosition='left' icon='left chevron' content='Last' />
+        <Button icon="bitcoin" color="green" content="Get for $1" />
+        <Button onClick={props.moreClickHandler} labelPosition='right' icon='right chevron' content='More' />
+      </Button.Group>
+    </Form.Field>
+  </Form.Field>
+)
+
 class MainContent extends Component {
   constructor() {
     super();
@@ -152,17 +168,13 @@ class MainContent extends Component {
             <Input label="Email" onChange={this.handleEmailChange.bind(this)} value={this.state.email} fluid type='email' name='email' placeholder='joe@schmoe.com' />
             </Form.Field>
 
-            <Form.Field>
-              Choose your planet:
-            </Form.Field>
-              {planetRadios}
-            <Form.Field>
-              <Button.Group>
-                <Button onClick={this.lastPage.bind(this)} disabled={this.state.page === 0} labelPosition='left' icon='left chevron' content='Last' />
-                <Button  icon="bitcoin" color="green" content="Get for $1" />
-                <Button onClick={this.nextPage.bind(this)} labelPosition='right' icon='right chevron' content='More' />
-              </Button.Group>
-            </Form.Field>
+            <SimplePlanetSelect
+              lastDisabled={this.state.page === 0}
+              planetRadios={planetRadios}
+              lastClickHandler={this.lastPage.bind(this)}
+              moreClickHandler={this.nextPage.bind(this)}
+              />
+
             <Form.Field>
               <Checkbox toggle label="Advanced" />
             </Form.Field>
