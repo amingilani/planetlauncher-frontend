@@ -38,13 +38,82 @@ class MainContent extends Component {
   constructor() {
     super();
     this.state = {
-      planets: null,
       email: '',
-      chosenPlanet: ''
+      chosenPlanet: '',
+      page: 0,
+      advanced: false,
+      planets: [
+        'motmeg-morryt',
+        'lavdux-hodwyn',
+        'ponnyx-ramsug',
+        'nisnym-tobpur',
+        'tanseg-racpem',
+        'hapmus-sonryg',
+        'bitsep-nilwyn',
+        'lophes-lashex',
+        'ponsem-padmex',
+        'roswer-fittes',
+        'dildyr-nopheb',
+        'nocwyt-divfep',
+        'samlev-nibweb',
+        'tapwet-samteb',
+        'nossed-tagnyl',
+        'sovben-mogrup',
+        'locsel-hobnem',
+        'fodhes-dacwer',
+        'timleg-nissec',
+        'wolzod-rapbyl',
+        'nibdeg-tadret',
+        'fabryd-wolled',
+        'sovfen-donrul',
+        'rabseb-tiltyn',
+        'dasdeb-lissef',
+        'nolsyx-ligned',
+        'hapheb-hidrep',
+        'ripbyt-mirper',
+        'nidpet-narbel',
+        'racsyx-fodrys',
+        'losdef-doztyc',
+      ]
     }
   }
 
+  paginatePlanets () {
+    const planets = this.state.planets;
+    const page = this.state.page;
+    const pageSize = 3;
+    return planets.slice(page * pageSize, (page + 1) * pageSize);
+  }
+
+  nextPage (event) {
+    let newState = Object.assign({}, this.state);
+    newState.page += 1;
+    this.setState(newState);
+    event.preventDefault();
+  }
+
+  lastPage (event) {
+    let newState = Object.assign({}, this.state);
+    newState.page -= 1;
+    this.setState(newState);
+    event.preventDefault();
+  }
+
   render() {
+    const planetRadios = this.paginatePlanets().map((planet) => {
+      const chosenPlanet = this.state.chosenPlanet;
+      return (
+        <Form.Field>
+          <Radio
+            label={planet}
+            name='radioGroup'
+            value={planet}
+            checked={planet === chosenPlanet}
+          />
+        </Form.Field>
+      )
+    })
+
     return(
       <Grid.Row>
         <Segment>
@@ -55,40 +124,16 @@ class MainContent extends Component {
             <Input label="Email" fluid type='email' name='email' placeholder='joe@schmoe.com' />
             </Form.Field>
 
-                <Form.Field>
-                  Choose your planet
-                </Form.Field>
-                <Form.Field>
-                  <Radio
-                    label='nidpet-narbel'
-                    name='radioGroup'
-                    value='this'
-                    checked={true}
-                    // onChange={this.handleChange}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Radio
-                    label='losdef-doztyc'
-                    name='radioGroup'
-                    value='that'
-                    checked={false}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Radio
-                    label='tapwet-samteb'
-                    name='radioGroup'
-                    value='this'
-                    checked={true}
-                  />
-                </Form.Field>
-
             <Form.Field>
-              <Button color="green">Claim <b>{'this'}</b> for $1</Button>
+              Choose your planet:
             </Form.Field>
+              {planetRadios}
             <Form.Field>
-              <Button color="yellow" basic>See More Planets</Button>
+              <Button.Group>
+                <Button onClick={this.lastPage.bind(this)} disabled={this.state.page === 0} labelPosition='left' icon='left chevron' content='Last' />
+                <Button  icon="bitcoin" color="green" content="Get for $1" />
+                <Button onClick={this.nextPage.bind(this)} labelPosition='right' icon='right chevron' content='More' />
+              </Button.Group>
             </Form.Field>
             <Form.Field>
               <Checkbox toggle label="Advanced" />
