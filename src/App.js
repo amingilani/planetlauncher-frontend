@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
-import {Button, Checkbox, Container, Form, Grid, Header, Icon, Input, Radio, Segment } from 'semantic-ui-react';
+import {Button, Checkbox, Container, Form, Grid, Header, Icon, Input, Message, Radio, Segment } from 'semantic-ui-react';
+
+const MockupMessage = () => (
+  <Message warning icon>
+    <Icon name='warning circle' />
+    <Message.Content>
+      <Message.Header>Whoaa, stop right there</Message.Header>
+      This site is just a mockup and was made to get my application to 3rd party
+      service providers approved. <br />
+      Check back soon! <strong>~silmun-rovlyn</strong>
+    </Message.Content>
+  </Message>
+)
+
 
 const HeaderContent = () => (
   <Grid.Row>
+    <MockupMessage />
     <Header as='h2' icon textAlign='center'>
       <Icon name='star' circular />
       <Header.Content>
