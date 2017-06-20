@@ -43,8 +43,16 @@ const FooterContent = () => (
   </div>
 )
 
-const advancedPlanet = (props) => (
-  <Input label="~" fluid placeholder='urbit-planet' />
+const AdvancedPlanetSelect = (props) => (
+  <Form.Field>
+    <p>Enter a valid planet phonetic name (@p)</p>
+  <Form.Field>
+    <Input label="~" fluid placeholder='urbit-planet' />
+  </Form.Field>
+  <Form.Field>
+    <Button icon="bitcoin" color="green" content="Get for $1" />
+  </Form.Field>
+  </Form.Field>
 )
 
 const SimplePlanetSelect = (props) => (
@@ -102,7 +110,6 @@ class MainContent extends Component {
         '~ripbyt-mirper',
         '~nidpet-narbel',
         '~racsyx-fodrys',
-        '~losdef-doztyc',
       ]
     }
   }
@@ -142,7 +149,15 @@ class MainContent extends Component {
     this.setState(newState);
   }
 
+  toggleAdvancedSelect() {
+    const advanced = this.state.advanced
+    let newState = Object.assign({}, this.state);
+    newState.advanced = !advanced;
+    this.setState(newState);
+  }
+
   render() {
+    const advanced = this.state.advanced;
     const planetRadios = this.paginatePlanets().map((planet) => {
       const chosenPlanet = this.state.chosenPlanet;
       return (
@@ -155,12 +170,12 @@ class MainContent extends Component {
             onClick={this.handlePlanetRadioClick.bind(this)}
           />
         </Form.Field>
-      )
-    })
+      );
+    });
 
     return(
       <Grid.Row>
-        <Segment>
+        <Segment id="buyform">
           <Grid.Row>
             <p><strong>Claim an Urbit planet from the star <em>~woldev</em> for $1.</strong></p>
             <Form>
@@ -168,15 +183,15 @@ class MainContent extends Component {
             <Input label="Email" onChange={this.handleEmailChange.bind(this)} value={this.state.email} fluid type='email' name='email' placeholder='joe@schmoe.com' />
             </Form.Field>
 
-            <SimplePlanetSelect
+            {advanced ? <AdvancedPlanetSelect /> : <SimplePlanetSelect
               lastDisabled={this.state.page === 0}
               planetRadios={planetRadios}
               lastClickHandler={this.lastPage.bind(this)}
               moreClickHandler={this.nextPage.bind(this)}
-              />
+              />}
 
             <Form.Field>
-              <Checkbox toggle label="Advanced" />
+              <Checkbox toggle onClick={this.toggleAdvancedSelect.bind(this)} checked={this.state.advanced} label="Advanced" />
             </Form.Field>
             </Form>
           </Grid.Row>
@@ -189,7 +204,7 @@ class MainContent extends Component {
 const App = () => {
     return (
       <Container>
-        <Grid centered>
+        <Grid centered columns={1}>
         <HeaderContent/>
         <MainContent/>
         <FooterContent />
